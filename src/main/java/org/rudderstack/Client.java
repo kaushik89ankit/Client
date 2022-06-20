@@ -59,6 +59,9 @@ public class Client {
                 while (socket.isConnected()){
                     try{
                         String messageRecieved = reader.readLine();
+                        if(messageRecieved == null){
+                            throw new IOException("Chat server closed");
+                        }
                         System.out.println(messageRecieved);
                     }catch (IOException e){
                         close(reader,writer,socket);
@@ -85,5 +88,7 @@ public class Client {
         }catch (IOException e){
             e.printStackTrace();
         }
+
+        System.out.println("Your chat window is closed");
     }
 }

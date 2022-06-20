@@ -16,10 +16,23 @@ public class App
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter your username : ");
         String username = scanner.nextLine();
-        Socket socket = new Socket("localhost",port);
-        Client client = new Client(username,socket);
-        client.recieveMessage();
-        client.sendMessage();
-
+        Socket socket = null;
+        long wait = 1000;
+        while(socket == null){
+            try{
+                socket = new Socket("localhost",port);
+                Client client = new Client(username,socket);
+                client.recieveMessage();
+                client.sendMessage();
+            }catch (Exception e){
+                System.out.println("Can not connect with the chat server");
+                try {
+                    Thread.sleep(wait);
+                    wait = 2*wait;
+                } catch (InterruptedException ex) {
+                    continue;
+                }
+            }
+        }
     }
 }
