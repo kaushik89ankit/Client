@@ -36,10 +36,15 @@ public class Client {
             Scanner scanner = new Scanner(System.in);
             while(socket.isConnected()){
                 String message = scanner.nextLine();
+                if(message.equalsIgnoreCase("exit")){
+                    System.out.println("You're no longer connected");
+                    close(reader,writer,socket);
+                }
                 writer.write(message);
                 writer.newLine();
                 writer.flush();
             }
+
         }catch (IOException e){
             System.out.println("Exception in sending message");
             e.printStackTrace();
